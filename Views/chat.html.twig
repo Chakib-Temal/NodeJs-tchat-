@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="../public/chat.css">
+    <title>Profil and Chat</title>
+    <script src="../public/socket.io.js"></script>
+</head>
+<body>
+    <div class="nav-bar">
+        <ul class="horizontal">
+            <li><a class="active">Welcome {{ user.getUserName() }}</a></li>
+            <!--
+                <li><a href="javascript:void(0)">News</a></li>
+                <li><a href="javascript:void(0)">Contact</a></li>
+            -->
+
+            <li class="rightli" style="float:right"><a href="{{ url }}/deconnect">Logout</a></li>
+        </ul>
+    </div>
+    <div class="friend-list-container">
+        <div class="friend-list-contact">
+            <div class="row">
+                <div class="col-md header">Connected users</div>
+
+                <div class="col-md chat-contact" id="Xpublic">
+                    <p>public</p>
+                    <p>public</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="friend-list-area" name="Xpublic">
+            <div class="row-b">
+                <div class="col-md header">Chat with public</div>
+
+                <div class="col-md chat-exchange-box">
+                    <ul>
+
+                    </ul>
+                </div>
+                <div class="col-md chat-exchange-actions">
+                    <textarea class="txt-area-chat"></textarea>
+                    <a  href="#" class="send-btn-area-chat" id="sendToPublic">Send Message</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        function User () {
+            this.username = "";
+            this.password = "";
+            this.email = "";
+        }
+
+        User.prototype = {
+            setUserName : function (username) {
+                this.username = username;
+            },
+
+            getUserName: function () {
+                return this.username;
+            },
+
+            setPassword : function (password) {
+                this.password = password;
+            },
+
+            getPassword: function () {
+                return this.password;
+            },
+
+            setEmail : function (email) {
+                this.email = email;
+            },
+
+            getEmail: function () {
+                return this.email;
+            }
+        };
+
+        function Data() {
+            this.email = "";
+            this.message = "";
+            this.userSender="";
+        }
+
+        Data.prototype = {
+            setEmail : function (username) {
+                this.email = username;
+            },
+
+            getEmail: function () {
+                return this.email;
+            },
+
+            setMessage: function(message){
+                this.message = message;
+            },
+
+            getMessage : function() {
+                return this.message;
+            },
+
+            setUserSender : function(userSender){
+                this.userSender = userSender;
+            },
+
+            getMessage : function() {
+                return this.userSender;
+            }
+        };
+
+
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            function hideXchangeArea() {
+                $('.friend-list-area').hide();
+            }
+
+            hideXchangeArea();
+
+
+            function __rebindAll() {
+                $('.col-md.chat-contact').each(function () {
+                    if (!$(this).hasClass('ele-binded')) {
+                        $(this).on('click', function (e) {
+
+                            $('.friend-list-area').hide();
+                            var targetName =  $(this).attr('id');
+                            console.log(targetName);
+                            $('.friend-list-area').each(function (i,l) {
+                                if($(this).attr('name') === targetName){
+                                    $(this).show();
+                                }
+                            });
+                        });
+                        
+                        $(this).addClass('ele-binded');
+                    }
+                });
+            };
+
+            __rebindAll();
+
+
+            var user = new User();
+            user.setEmail({{ user.getEmail() |json_encode() }});
+            user.setPassword({{ user.getPassword() |json_encode() }});
+            user.setUserName({{ user.getUserName() |json_encode() }});
+
+            var socket = io.connect({{ url |json_encode() }});
+
+            socket.emit('sendInformationUser', user );
+
+
+
+
+            //recuperation des utilisateurs connectés
+            setInterval(function () {
+                socket.emit('getListUsersConnected', user);
+            }, 1500);
+
+            socket.on('setListUsersConnected', function (list) {
+                if (list == 'nobody is there') { return; }
+
+                $('.col-md.chat-contact').each(function () {
+                    var test2 = false;
+
+                    for (var i=0; i < list.length; i++){
+                        if($(this).attr('id') == list[i].email ){
+                            test2 = true;
+                        }
+                    }
+
+                    //garder le chat public
+                    if( $(this).attr('id') == 'Xpublic'){
+                        test2 = true;
+                    }
+
+                   //console.log(test2);
+                    if(test2 == false){
+                        $(this).empty();
+                        $(this).remove();
+                    }
+                });
+
+
+                for (var i=0; i < list.length; i++){
+                    var zzz = true;
+
+                    if (list[i].email == "undefined"){
+                        continue;
+                    }
+
+                    $('.col-md.chat-contact').each(function () {
+
+                        if ($(this).attr('id') == "undefined"){
+                            return true;
+                        }
+                        //console.log($(this).attr('id'));
+
+                        if(list[i].email == $(this).attr('id') ){
+                            zzz = false;
+                        }
+
+                    });
+                    //si test = true a la fin de la boucle ca veut dire que l'utilisateur n'existait pas, donc on l'ajoute
+                    if(zzz == true){
+                        var $newEle = $("<div class='col-md chat-contact' id='X"+list[i].email+"'> <p>"+list[i].username+"</p> <p>"+list[i].email+"</p>");
+                        var $newElem = $("<div class='friend-list-area' name='X"+list[i].email+"'> <div class='row-b'> <div class='col-md header'>Chat with "+list[i].username+" </div> <div class='col-md chat-exchange-box'> </div> <div class='col-md chat-exchange-actions'> <textarea class='txt-area-chat'></textarea> <a  href='#' class='send-btn-area-chat'>Send Message</a>  </div> </div> </div>  ");
+                        $('.friend-list-container').append($newElem);
+                        $('.row').append($newEle);
+
+                        $newElem.hide();
+                        __rebindAll();
+                    }
+
+                }
+
+            });
+
+
+        });
+
+
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../public/login.css">
+    <title>Register</title>
+
+</head>
+<body>
+<button style="float: right;border-radius: 25px;" id="infos">i</button>
+
+<div style="margin-right: 20%">
+    <p style="font-style: italic; text-align: justify; ">
+        Hi everyone, sign up, it's simple and it only takes a few seconds.
+    </p>
+</div>
+
+<div class="login">
+    <div class="login-screen">
+        <div class="app-title">
+            <h1>Register</h1>
+        </div>
+
+<form method="post" action="{{ url }}register">
+    <div class="login-form">
+        <div class="control-group">
+
+            <label for="username" style="font-style: italic">choose your username</label>
+            <input type="text" name="username" id="username" required> <span id="_username"> </span>
+        </div>
+
+        <div class="control-group">
+            <label for="password" style="font-style: italic">choose your password</label>
+            <input type="password" name="password" id="password" class="_length" required> <span id="_password"> </span>
+        </div>
+
+        <div class="control-group">
+            <label for="email" style="font-style: italic">put your email</label>
+            <input type="email" name="email" id="email" class="_length" required> <span id="_email"> </span>
+        </div>
+        <br>
+        <span style="color : red"> {% if Demail is defined %}  {{ Demail }}   {% endif %} </span>
+        <br>
+
+
+
+        <input type="submit" class="btn btn-primary btn-large btn-block" value="Register">
+    </div>
+
+</form>
+
+<a class="login-link" href="{{ url }}login">Already member ?</a>
+    </div>
+</div>
+
+<script src="../public/Jquery.js"></script>
+<script src="../public/register.js"></script>
+
+
+</body>
+</html>

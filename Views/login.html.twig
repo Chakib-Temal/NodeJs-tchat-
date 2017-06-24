@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="../public/login.css">
+    <title>Login</title>
+</head>
+<body>
+<button style="float: right;border-radius: 25px;" onclick="infos()">i</button>
+<div style="margin-right: 20%">
+    <p style="font-style: italic; text-align: justify; ">
+        Welcome, if you want to play our version of Battelship or make new acquaintances to chat with people like you who love our site, you need to log in to your account if you do not have an account you can To register very easily by clicking on <a href="{{ url }}register">Create Account ?</a>, if you want to discover our team you can at any time click on the info button which is in the top right.
+    </p>
+</div>
+
+
+<div class="login">
+    <div class="login-screen">
+        <div class="app-title">
+    <h1>Login</h1>
+        </div>
+
+<form method="post" action="{{ url }}login">
+    <div class="login-form">
+        <div class="control-group">
+
+        <label for="email" style="font-style: italic">put your email</label>
+        <input type="email" name="email" class="login-field" id="email" required> <span> </span>
+
+        </div>
+
+        <div class="control-group">
+
+            <label for="password" style="font-style: italic">put your password</label>
+            <input type="password" name="password" class="login-field" id="password" required> <span> </span>
+
+        </div>
+
+        <br>
+        <span style="color: red"> {% if Dfalse is defined %}  {{ Dfalse }}   {% endif %} </span>
+        <br>
+
+        <input class="btn btn-primary btn-large btn-block" type="submit" value="Register">
+
+    </div>
+</form>
+<a class="login-link" href="{{ url }}register">Create Account ?</a>
+    </div>
+</div>
+
+<script>
+    function infos(){
+        alert('Hi this site is realized by a group of students of Supinfo Paris, if you encounter a problem you can contact us at any time on 222691@SUPINFO.COM');
+    }
+</script>
+
+</body>
+</html>
+
