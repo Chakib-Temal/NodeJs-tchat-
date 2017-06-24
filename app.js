@@ -1,3 +1,5 @@
+// Main App Chat / Supinfo
+
 var http = require('http');
 var fs = require('fs');
 
