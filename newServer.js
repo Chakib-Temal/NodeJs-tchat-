@@ -223,9 +223,10 @@ io.on('connection', function(socket){
     });
 
 
-    socket.on('broadcast', function (data) {
+    socket.on('publicMessage', function (data) {
         socket.broadcast.emit('broadcasting', data);
-    })
+        socket.emit('broadcasting', data);
+    });
 
 
 
@@ -237,7 +238,7 @@ io.on('connection', function(socket){
 function sendForUser(data) {
     for (var i = 0; i < listUserConnected.length; i++) {
         if (listUserConnected[i].email == data.email) {
-            listUserConnected[i].sock.emit('message', data.userSender +' : '+ data.message);
+            listUserConnected[i].sock.emit('message', data);
         }
 
     }
