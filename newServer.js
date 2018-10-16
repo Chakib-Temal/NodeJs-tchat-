@@ -159,6 +159,21 @@ app.get('/chat',function (req,res) {
     }
 });
 
+//game
+app.get('/game',function (req,res) {
+    sess = req.session;
+
+    if(sess.email) {
+        var user = new User();
+        user.setEmail(sess.email);
+        user.setPassword(sess.password);
+        user.setUserName(sess.username);
+
+        res.render('game.html.twig', {url : generateUrl(req) ,user : user });
+    }else{
+        res.redirect( generateUrl(req) + '/login');
+    }
+});
 
 
 

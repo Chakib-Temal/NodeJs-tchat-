@@ -10,10 +10,8 @@
     <div class="nav-bar">
         <ul class="horizontal">
             <li><a class="active">Welcome {{ user.getUserName() }}</a></li>
-            <!--
-                <li><a href="javascript:void(0)">News</a></li>
-                <li><a href="javascript:void(0)">Contact</a></li>
-            -->
+
+                <li><a href="{{ url }}/game">Game</a></li>
 
             <li class="rightli" style="float:right"><a href="{{ url }}/deconnect">Logout</a></li>
         </ul>

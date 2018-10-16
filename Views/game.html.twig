@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="../public/game.css">
+    <title>Game</title>
+
+</head>
+<body>
+<div class="nav-bar">
+    <ul class="horizontal">
+        <li><a class="active">Welcome {{ user.getUserName() }}</a></li>
+
+            <li><a href="{{ url }}/chat">Chat</a></li>
+
+
+
+        <li class="rightli" style="float:right"><a href="{{ url }}/deconnect">Logout</a></li>
+    </ul>
+</div>
+<div id="cont">
+    <p> Welcome to your favorite games party <strong>Battleship </strong> </p>
+
+    <p style="font-family: Times New Roman;">Find the 17 batteships, your score will be displayed at the end of the game, have fun</p>
+
+    <div id="grilleDeJeux">
+    </div>
+    <p id="score" > </p>
+</div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/game.js"></script>
+
+</div>
+</body>
+</html>

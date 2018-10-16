@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+#cont {
+   
+    margin: 2% ;
+    width: 70%;
+}
+
+ul.horizontal {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3498DB;
+    border: 3px solid;
+}
+
+ul.horizontal li {
+    float: left;
+}
+
+ul.horizontal li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.horizontal li a:hover:not(.active) {
+    background-color: #000;
+}
+
+ul.horizontal li a.active {
+    background-color:#4CAF50;
+}
+
+#grilleDeJeux {
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:15%;
+
+}
+
+#grilleDeJeux p {
+    position:absolute;
+    width:40px;
+    height:40px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #f6f8f9;
+    border: 1px solid #ddd;
+
+}
+
+
+
